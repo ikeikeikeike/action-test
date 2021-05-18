@@ -9,11 +9,11 @@ on:
 
 jobs:
   build:
-    name: Python ${{ matrix.python-version }} sample
+    name: Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [2.7, 3.7, 3.8, 3.9]
+        python-version: [3.7, 3.8, 3.9]
     steps:
       - uses: actions/checkout@v2
       - name: Setup python
@@ -22,8 +22,10 @@ jobs:
           python-version: ${{ matrix.python-version }}
           architecture: x64
       - run: python -V
+
       - name: Install Tox and any other packages
         run: pip install tox
+
       - name: Run Tox
         run: tox
 
@@ -34,17 +36,17 @@ jobs:
     steps:
       - uses: actions/setup-python@v2
         with:
-          python-version: '3.9'
-          architecture: 'x64'
+          python-version: 3.9
+          architecture: x64
       - run: python -V
-      - name: Build & test 2
-        run: |
-          echo "done!"
+
+      - name: package
+        run: python setup.py sdist
 
       - uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           files: |
-            README.md
-            *.py
+            dist/*.zip
+            dist/*.gz
