@@ -109,16 +109,16 @@ jobs:
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
           base: master
-          branch: add-mypackage
+          branch: "add-${{ github.event.repository.name }}"
           delete-branch: true
           assignees: "${{ github.actor }}"
           reviewers: "${{ github.actor }}"
           author: "${{ github.actor }} <${{ github.event.pusher.email }}>"
-          # committer: "${{ github.actor }} <${{ github.event.pusher.email }}>"
-          commit-message: Add mypackage
-          title: 'Add mypackage'
+          committer: "${{ github.actor }} <${{ github.event.pusher.email }}>"
+          commit-message: "Add ${{ github.event.repository.name }} ${{ github.event.ref }}"
+          title: "Add ${{ github.event.repository.name }} ${{ github.event.ref }}"
           body: |
-            Added ref ${{ github.event.ref }} from ${{ github.event.repositoryUrl }}
+            Added ref ${{ github.event.ref }} from ${{ github.repositoryUrl }}
 
             - Release https://github.com/ikeikeikeike/action-test/releases
             - Compare: ${{ github.event.compare }}
