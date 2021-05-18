@@ -61,7 +61,7 @@ jobs:
 
   pr:
     needs: [release]
-    name: Create PR
+    name: Create Pull Request
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -71,5 +71,73 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: dist
+
       - run: ls -alt
 
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJSON(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJSON(steps) }}
+        run: echo "$STEPS_CONTEXT"
+      - name: Dump runner context
+        env:
+          RUNNER_CONTEXT: ${{ toJSON(runner) }}
+        run: echo "$RUNNER_CONTEXT"
+      - name: Dump strategy context
+        env:
+          STRATEGY_CONTEXT: ${{ toJSON(strategy) }}
+        run: echo "$STRATEGY_CONTEXT"
+      - name: Dump matrix context
+        env:
+          MATRIX_CONTEXT: ${{ toJSON(matrix) }}
+        run: echo "$MATRIX_CONTEXT"
+
+      # - name: Make changes to pull request
+      #   run: date +%s > report.txt
+
+      # - name: Create commits
+      #   run: |
+      #     git config user.name 'Peter Evans'
+      #     git config user.email 'peter-evans@users.noreply.github.com'
+      #     date +%s > report.txt
+      #     git commit -am "Modify tracked file during workflow"
+      #     date +%s > new-report.txt
+      #     git add -A
+      #     git commit -m "Add untracked file during workflow"
+
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          commit-message: Add mypackage
+          committer: "GitHub <noreply@github.com>"
+          author: "${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>"
+          # signoff: false
+          branch: add-mypackage
+          delete-branch: true
+          title: 'Add mypackage'
+          body: |
+            https://github.com/ikeikeikeike/action-test/releases
+          # labels: |
+          #   report
+          #   automated pr
+          assignees: "${{ github.actor }}"
+          reviewers: "${{ github.actor }}"
+          # team-reviewers: |
+          #   owners
+          #   maintainers
+          # milestone: 1
+          # draft: false
+
+      - name: Check outputs
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
