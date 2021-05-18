@@ -117,12 +117,12 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
-          commit-message: Add mypackage
-          committer: "GitHub <noreply@github.com>"
-          author: "${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>"
-          # signoff: false
-          branch: add-mypackage
           delete-branch: true
+          base: ${{ github.head_ref }}
+          branch: add-mypackage
+          author: "${{ github.actor }} <${{ github.pusher.email }}>"
+          committer: "${{ github.actor }} <${{ github.pusher.email }}>"
+          commit-message: Add mypackage
           title: 'Add mypackage'
           body: |
             https://github.com/ikeikeikeike/action-test/releases
