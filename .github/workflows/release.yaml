@@ -120,8 +120,8 @@ jobs:
           delete-branch: true
           base: ${{ github.head_ref }}
           branch: add-mypackage
-          author: "${{ github.actor }} <${{ github.pusher.email }}>"
-          committer: "${{ github.actor }} <${{ github.pusher.email }}>"
+          author: "${{ github.actor }} <${{ github.event.pusher.email }}>"
+          committer: "${{ github.actor }} <${{ github.event.pusher.email }}>"
           commit-message: Add mypackage
           title: 'Add mypackage'
           body: |
