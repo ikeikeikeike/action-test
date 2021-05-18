@@ -102,15 +102,9 @@ jobs:
       # - name: Make changes to pull request
       #   run: date +%s > report.txt
 
-      # - name: Create commits
-      #   run: |
-      #     git config user.name 'Peter Evans'
-      #     git config user.email 'peter-evans@users.noreply.github.com'
-      #     date +%s > report.txt
-      #     git commit -am "Modify tracked file during workflow"
-      #     date +%s > new-report.txt
-      #     git add -A
-      #     git commit -m "Add untracked file during workflow"
+      - name: Create commits
+        run: |
+          git branch add-mypackage && git checkout add-mypackage
 
       - name: Create Pull Request
         id: cpr
@@ -118,7 +112,9 @@ jobs:
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
           delete-branch: true
-          branch: base
+          branch: add-mypackage
+          assignees: "${{ github.actor }}"
+          reviewers: "${{ github.actor }}"
           author: "${{ github.actor }} <${{ github.event.pusher.email }}>"
           committer: "${{ github.actor }} <${{ github.event.pusher.email }}>"
           commit-message: Add mypackage
@@ -128,8 +124,6 @@ jobs:
           # labels: |
           #   report
           #   automated pr
-          assignees: "${{ github.actor }}"
-          reviewers: "${{ github.actor }}"
           # team-reviewers: |
           #   owners
           #   maintainers
