@@ -30,7 +30,7 @@ jobs:
         run: tox
 
   release:
-    needs: [build]
+    needs: [test]
     name: Tagged Release
     runs-on: ubuntu-latest
     steps:
@@ -61,7 +61,7 @@ jobs:
 
   pr:
     needs: [release]
-    name: Tagged Release
+    name: Create PR
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
