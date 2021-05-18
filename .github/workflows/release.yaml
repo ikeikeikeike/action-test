@@ -21,13 +21,16 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           architecture: x64
-      - run: python my_script.py
+      - run: python -V
+      - name: Build & test 1
+        run: |
+          echo "done!"
 
-  tagged-release:
+  release:
     name: Tagged Release
     runs-on: ubuntu-latest
     steps:
-      - name: Build & test
+      - name: Build & test 2
         run: |
           echo "done!"
 
