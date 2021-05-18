@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [2.7, 3.7, 3.8]
+        python-version: [2.7, 3.7, 3.8, 3.9]
     steps:
       - uses: actions/checkout@v2
       - name: Setup python
@@ -31,11 +31,14 @@ jobs:
     name: Tagged Release
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+        architecture: 'x64'
+      - run: python -V
       - name: Build & test 2
         run: |
           echo "done!"
-
-      - run: python -V
 
       - uses: marvinpinto/action-automatic-releases@latest
         with:
