@@ -1,6 +1,6 @@
 ---
 
-name: "tagged-release-with-pr-creation"
+name: "release & create pull request"
 
 on:
   push:
@@ -72,46 +72,43 @@ jobs:
         with:
           name: dist
 
-      - run: ls -alt
+      # - run: ls -alt
+      #
+      # - name: Dump GitHub context
+      #   env:
+      #     GITHUB_CONTEXT: ${{ toJSON(github) }}
+      #   run: echo "$GITHUB_CONTEXT"
+      # - name: Dump job context
+      #   env:
+      #     JOB_CONTEXT: ${{ toJSON(job) }}
+      #   run: echo "$JOB_CONTEXT"
+      # - name: Dump steps context
+      #   env:
+      #     STEPS_CONTEXT: ${{ toJSON(steps) }}
+      #   run: echo "$STEPS_CONTEXT"
+      # - name: Dump runner context
+      #   env:
+      #     RUNNER_CONTEXT: ${{ toJSON(runner) }}
+      #   run: echo "$RUNNER_CONTEXT"
+      # - name: Dump strategy context
+      #   env:
+      #     STRATEGY_CONTEXT: ${{ toJSON(strategy) }}
+      #   run: echo "$STRATEGY_CONTEXT"
+      # - name: Dump matrix context
+      #   env:
+      #     MATRIX_CONTEXT: ${{ toJSON(matrix) }}
+      #   run: echo "$MATRIX_CONTEXT"
 
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: echo "$GITHUB_CONTEXT"
-      - name: Dump job context
-        env:
-          JOB_CONTEXT: ${{ toJSON(job) }}
-        run: echo "$JOB_CONTEXT"
-      - name: Dump steps context
-        env:
-          STEPS_CONTEXT: ${{ toJSON(steps) }}
-        run: echo "$STEPS_CONTEXT"
-      - name: Dump runner context
-        env:
-          RUNNER_CONTEXT: ${{ toJSON(runner) }}
-        run: echo "$RUNNER_CONTEXT"
-      - name: Dump strategy context
-        env:
-          STRATEGY_CONTEXT: ${{ toJSON(strategy) }}
-        run: echo "$STRATEGY_CONTEXT"
-      - name: Dump matrix context
-        env:
-          MATRIX_CONTEXT: ${{ toJSON(matrix) }}
-        run: echo "$MATRIX_CONTEXT"
-
-      # - name: Make changes to pull request
-      #   run: date +%s > report.txt
-
-      - name: Create commits
-        run: |
-          git branch add-mypackage && git checkout add-mypackage
+      # - name: Make changes to pull request, Create commits
+      #   run: |
+      #     git branch add-mypackage && git checkout add-mypackage
 
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v3
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
-          delete-branch: true
+          # delete-branch: true
           branch: add-mypackage
           assignees: "${{ github.actor }}"
           reviewers: "${{ github.actor }}"
