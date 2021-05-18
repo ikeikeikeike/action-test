@@ -28,6 +28,7 @@ jobs:
         run: tox
 
   release:
+    needs: [build]
     name: Tagged Release
     runs-on: ubuntu-latest
     steps:
