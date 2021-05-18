@@ -118,8 +118,7 @@ jobs:
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
           delete-branch: true
-          # base: ${{ github.head_ref }}
-          # branch: add-mypackage
+          branch: base
           author: "${{ github.actor }} <${{ github.event.pusher.email }}>"
           committer: "${{ github.actor }} <${{ github.event.pusher.email }}>"
           commit-message: Add mypackage
