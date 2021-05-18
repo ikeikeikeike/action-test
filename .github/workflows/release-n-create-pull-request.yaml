@@ -26,8 +26,8 @@ jobs:
       - name: Install Tox and any other packages
         run: pip install tox
 
-      # - name: Run Tox
-      #   run: tox
+      - name: Run Tox
+        run: tox
 
   release:
     needs: [test]
@@ -67,41 +67,14 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: 'ikeikeikeike/action-test'
+
+      - run: mkdir -p mydir
+
       - name: Download python package
         uses: actions/download-artifact@v2
         with:
           name: dist
-
-      # - run: ls -alt
-      #
-      # - name: Dump GitHub context
-      #   env:
-      #     GITHUB_CONTEXT: ${{ toJSON(github.ref) }}
-      #   run: echo "$GITHUB_CONTEXT"
-      # - name: Dump job context
-      #   env:
-      #     JOB_CONTEXT: ${{ toJSON(job) }}
-      #   run: echo "$JOB_CONTEXT"
-      # - name: Dump steps context
-      #   env:
-      #     STEPS_CONTEXT: ${{ toJSON(steps) }}
-      #   run: echo "$STEPS_CONTEXT"
-      # - name: Dump runner context
-      #   env:
-      #     RUNNER_CONTEXT: ${{ toJSON(runner) }}
-      #   run: echo "$RUNNER_CONTEXT"
-      # - name: Dump strategy context
-      #   env:
-      #     STRATEGY_CONTEXT: ${{ toJSON(strategy) }}
-      #   run: echo "$STRATEGY_CONTEXT"
-      # - name: Dump matrix context
-      #   env:
-      #     MATRIX_CONTEXT: ${{ toJSON(matrix) }}
-      #   run: echo "$MATRIX_CONTEXT"
-
-      # - name: Make changes to pull request, Create commits
-      #   run: |
-      #     git branch add-mypackage && git checkout add-mypackage
+          path: mydir
 
       - name: Create Pull Request
         id: cpr
@@ -118,19 +91,10 @@ jobs:
           commit-message: "Add ${{ github.event.repository.name }} ${{ github.event.ref }}"
           title: "Add ${{ github.event.repository.name }} ${{ github.event.ref }}"
           body: |
-            Added ref ${{ github.event.ref }} from ${{ github.repositoryUrl }}
+            Added ref ${{ github.event.ref }} from https://github.com/${{ github.event.repository.full_name }}
 
-            - Release https://github.com/ikeikeikeike/action-test/releases
+            - Release https://github.com/${{ github.event.repository.full_name }}/releases
             - Compare: ${{ github.event.compare }}
-
-          # labels: |
-          #   report
-          #   automated pr
-          # team-reviewers: |
-          #   owners
-          #   maintainers
-          # milestone: 1
-          # draft: false
 
       - name: Check outputs
         run: |
