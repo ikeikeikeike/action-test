@@ -76,7 +76,7 @@ jobs:
       #
       # - name: Dump GitHub context
       #   env:
-      #     GITHUB_CONTEXT: ${{ toJSON(github) }}
+      #     GITHUB_CONTEXT: ${{ toJSON(github.ref) }}
       #   run: echo "$GITHUB_CONTEXT"
       # - name: Dump job context
       #   env:
@@ -108,17 +108,21 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
-          delete-branch: true
           base: master
           branch: add-mypackage
+          delete-branch: true
           assignees: "${{ github.actor }}"
           reviewers: "${{ github.actor }}"
           author: "${{ github.actor }} <${{ github.event.pusher.email }}>"
-          committer: "${{ github.actor }} <${{ github.event.pusher.email }}>"
+          # committer: "${{ github.actor }} <${{ github.event.pusher.email }}>"
           commit-message: Add mypackage
           title: 'Add mypackage'
           body: |
-            https://github.com/ikeikeikeike/action-test/releases
+            Added ref ${{ github.event.ref }} from ${{ github.event.repositoryUrl }}
+
+            - Release https://github.com/ikeikeikeike/action-test/releases
+            - Compare: ${{ github.event.compare }}
+
           # labels: |
           #   report
           #   automated pr
