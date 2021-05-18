@@ -8,7 +8,7 @@ on:
       - "v*"
 
 jobs:
-  build:
+  test:
     name: Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
@@ -26,11 +26,8 @@ jobs:
       - name: Install Tox and any other packages
         run: pip install tox
 
-      - name: ls
-        run: ls -alt
-
-      # - name: Run Tox
-      #   run: tox
+      - name: Run Tox
+        run: tox
 
   release:
     needs: [build]
@@ -38,22 +35,40 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - name: Setup python
+        uses: actions/setup-python@v2
         with:
           python-version: 3.9
           architecture: x64
       - run: python -V
 
-      - name: ls
-        run: ls -alt
-
-      - name: package
+      - name: setup.py sdist
         run: python setup.py sdist
 
-      - uses: marvinpinto/action-automatic-releases@latest
+      - name: release to github
+        uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           files: |
             dist/*.zip
             dist/*.gz
+      - name: Upload python package
+        uses: actions/upload-artifact@v2
+        with:
+          name: sdist
+          path: sdist
+
+  pr:
+    needs: [release]
+    name: Tagged Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          repository: 'ikeikeikeike/action-test'
+      - name: Upload python package
+        uses: actions/download-artifact@v2
+        with:
+          name: sdist
+      - run: ls -alt
