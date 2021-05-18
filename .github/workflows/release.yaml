@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [ '2.7', '3.7', '3.8' ]
+        python-version: [2.7, 3.7, 3.8]
     steps:
       - uses: actions/checkout@v2
       - name: Setup python
@@ -22,9 +22,10 @@ jobs:
           python-version: ${{ matrix.python-version }}
           architecture: x64
       - run: python -V
-      - name: Build & test 1
-        run: |
-          echo "done!"
+      - name: Install Tox and any other packages
+        run: pip install tox
+      - name: Run Tox
+        run: tox
 
   release:
     name: Tagged Release
@@ -33,6 +34,8 @@ jobs:
       - name: Build & test 2
         run: |
           echo "done!"
+
+      - run: python -V
 
       - uses: marvinpinto/action-automatic-releases@latest
         with:
