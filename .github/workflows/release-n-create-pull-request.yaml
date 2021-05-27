@@ -52,7 +52,7 @@ jobs:
       - name: setup.py sdist
         run: |
           pyverinfo=`echo ${{ steps.branch_name.outputs.SOURCE_TAG }} | sed 's/\./, /g'`
-          echo "__version_info__ = ($pyverinfo)\n__version__ = '.'.join(map(str, __version_info__))" > myaction/__version__.py
+          echo -e "__version_info__ = ($pyverinfo)\n__version__ = '.'.join(map(str, __version_info__))" > myaction/__version__.py
 
           python setup.py sdist
 
