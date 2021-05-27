@@ -42,52 +42,46 @@ jobs:
           architecture: x64
       - run: python -V
 
-      - run: ls -alt
-
-      - name: Dump GitHub context
-        env:
-          GITHUB_ALL: ${{ toJSON(github) }}
-        run: echo "$GITHUB_ALL"
-
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJSON(github.ref) }}
-        run: echo "$GITHUB_CONTEXT"
-      - name: Dump job context
-        env:
-          JOB_CONTEXT: ${{ toJSON(job) }}
-        run: echo "$JOB_CONTEXT"
-      - name: Dump steps context
-        env:
-          STEPS_CONTEXT: ${{ toJSON(steps) }}
-        run: echo "$STEPS_CONTEXT"
-      - name: Dump runner context
-        env:
-          RUNNER_CONTEXT: ${{ toJSON(runner) }}
-        run: echo "$RUNNER_CONTEXT"
-      - name: Dump strategy context
-        env:
-          STRATEGY_CONTEXT: ${{ toJSON(strategy) }}
-        run: echo "$STRATEGY_CONTEXT"
-      - name: Dump matrix context
-        env:
-          MATRIX_CONTEXT: ${{ toJSON(matrix) }}
-        run: echo "$MATRIX_CONTEXT"
+      # - run: ls -alt
+      # - name: Dump GitHub context
+      #   env:
+      #     GITHUB_ALL: ${{ toJSON(github) }}
+      #   run: echo "$GITHUB_ALL"
+      #
+      # - name: Dump GitHub context
+      #   env:
+      #     GITHUB_CONTEXT: ${{ toJSON(github.ref) }}
+      #   run: echo "$GITHUB_CONTEXT"
+      # - name: Dump job context
+      #   env:
+      #     JOB_CONTEXT: ${{ toJSON(job) }}
+      #   run: echo "$JOB_CONTEXT"
+      # - name: Dump steps context
+      #   env:
+      #     STEPS_CONTEXT: ${{ toJSON(steps) }}
+      #   run: echo "$STEPS_CONTEXT"
+      # - name: Dump runner context
+      #   env:
+      #     RUNNER_CONTEXT: ${{ toJSON(runner) }}
+      #   run: echo "$RUNNER_CONTEXT"
+      # - name: Dump strategy context
+      #   env:
+      #     STRATEGY_CONTEXT: ${{ toJSON(strategy) }}
+      #   run: echo "$STRATEGY_CONTEXT"
+      # - name: Dump matrix context
+      #   env:
+      #     MATRIX_CONTEXT: ${{ toJSON(matrix) }}
+      #   run: echo "$MATRIX_CONTEXT"
 
       - name: Make changes to pull request, Create commits
         run: |
           git branch add-mypackage && git checkout add-mypackage
 
-      - name: Source Information
-        id: sourceinfo
-        run: |
-          echo ::set-output name=SOURCE_NAME::${GITHUB_REF#refs/*/}
-          echo ::set-output name=SOURCE_BRANCH::${GITHUB_REF#refs/heads/}
-          echo ::set-output name=SOURCE_TAG::${GITHUB_REF#refs/tags/}
-
       - name: setup.py sdist
+        env:
+          GITHUB_REF: ${{ toJSON(github.ref) }}
         run: |
-          pyverinfo=`echo ${{ steps.branch_name.outputs.SOURCE_TAG }} | sed 's/\./, /g'`
+          pyverinfo=`echo ${GITHUB_REF#refs/tags/} | sed 's/\./, /g'`
           echo -e "__version_info__ = ($pyverinfo)\n__version__ = '.'.join(map(str, __version_info__))" > myaction/__version__.py
 
           python setup.py sdist
