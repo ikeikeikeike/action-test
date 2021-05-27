@@ -5,7 +5,7 @@ name: "release & create pull request"
 on:
   push:
     tags:
-      - "v*"
+      - "*"
 
 jobs:
   test:
@@ -42,8 +42,19 @@ jobs:
           architecture: x64
       - run: python -V
 
+      - name: Source Information
+        id: sourceinfo
+        run: |
+          echo ::set-output name=SOURCE_NAME::${GITHUB_REF#refs/*/}
+          echo ::set-output name=SOURCE_BRANCH::${GITHUB_REF#refs/heads/}
+          echo ::set-output name=SOURCE_TAG::${GITHUB_REF#refs/tags/}
+
       - name: setup.py sdist
-        run: python setup.py sdist
+        run: |
+          pyverinfo=`echo ${{ steps.branch_name.outputs.SOURCE_TAG }} | sed 's/\./, /g'`
+          echo "__version_info__ = ($pyverinfo)\n__version__ = '.'.join(map(str, __version_info__))" > myaction/__version__.py
+
+          python setup.py sdist
 
       - name: release to github
         uses: marvinpinto/action-automatic-releases@latest
