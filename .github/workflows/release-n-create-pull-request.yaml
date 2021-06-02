@@ -91,12 +91,14 @@ jobs:
 
       - name: release to github
         uses: marvinpinto/action-automatic-releases@latest
+        continue-on-error: true
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           files: |
             dist/*.zip
             dist/*.gz
+
       - name: Upload python package
         uses: actions/upload-artifact@v2
         with:
