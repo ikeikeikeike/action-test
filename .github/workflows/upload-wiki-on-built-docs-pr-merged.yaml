@@ -10,7 +10,7 @@ on:
 
 jobs:
   docs:
-    name: Build Documentation
+    name: Upload Documentation
     if: github.event.pull_request.merged == true && github.head_ref == 'build-documentation'
     runs-on: ubuntu-latest
     steps:
