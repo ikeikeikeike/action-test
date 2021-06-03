@@ -1,3 +1,4 @@
-dist/
-myaction.egg-info/
+dist
+myaction.egg-info
 __pycache__
+docs

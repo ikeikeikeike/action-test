@@ -1,0 +1,56 @@
+---
+
+rame: "Build docs on pull request merged"
+
+on:
+  pull_request:
+    branches:
+      - master
+    types: [closed]
+
+jobs:
+  docs:
+    name: Build Documentation
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+          architecture: x64
+
+      - run: python -V
+
+      - name: Generate Documentation
+        run: |
+          pip install -y pdoc3
+          pdoc3 myaction --html -o _docs
+
+          diff -r _docs docs
+
+      - name: Create Pull Request if docs are difference
+        if: failure()
+        id: cpr
+        uses: peter-evans/create-pull-request@v3
+        with:
+          base: master
+          branch: "built-documentation-${{ github.event.repository.name }}"
+          delete-branch: true
+          assignees: "${{ github.actor }}"
+          reviewers: "${{ github.actor }}"
+          author: "${{ github.actor }} <${{ github.event.pusher.email }}>"
+          committer: "${{ github.actor }} <${{ github.event.pusher.email }}>"
+          commit-message: "Built documentation ${{ github.event.repository.name }} ${{ github.event.ref }}"
+          title: "Built documentation ${{ github.event.repository.name }} ${{ github.event.ref }}"
+          body: |
+            Built documentation ref ${{ github.event.ref }}
+
+            - Compare: ${{ github.event.compare }}
+
+      - name: Check outputs
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
+
