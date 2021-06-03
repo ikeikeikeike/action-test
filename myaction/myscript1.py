@@ -9,6 +9,7 @@ def none():
     c = None
     d = None
     e = None
+    g = None
     ```
     """
 
