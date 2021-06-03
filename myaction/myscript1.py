@@ -5,6 +5,7 @@ def none():
     """myaction
     ```python
     a = None
+    b = None
     ```
     """
 
