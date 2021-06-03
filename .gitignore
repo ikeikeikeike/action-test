@@ -1,4 +1,4 @@
 dist
 myaction.egg-info
 __pycache__
-docs
+_docs
