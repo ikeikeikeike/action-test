@@ -5,13 +5,13 @@ name: "upload wiki when built doc is merged"
 on:
   pull_request:
     branches:
-      - build-documentation
+      - master
     types: [closed]
 
 jobs:
   docs:
     name: Build Documentation
-    if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true && github.head_ref == "build-documentation"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
