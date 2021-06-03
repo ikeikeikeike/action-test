@@ -24,13 +24,11 @@ jobs:
       - run: python -V
 
       - name: Generate Documentation as Markdown
-        if: steps.cpr.outputs.pull-request-number
         run: |
           pip install pdoc3
           pdoc3 myaction -f -o wiki
 
       - name: Upload Documentation to Wiki
-        if: steps.cpr.outputs.pull-request-number
         uses: SwiftDocOrg/github-wiki-publish-action@v1
         with:
           path: "wiki"
