@@ -26,9 +26,11 @@ jobs:
       - name: Generate Documentation
         run: |
           pip install pdoc3
-          pdoc3 myaction -f --html -o _docs
 
-          diff -r _docs docs
+          cp -pR docs prev_docs 2>/dev/null || :
+          pdoc3 myaction -f --html -o docs
+
+          diff -r prev_docs docs
 
       - name: Create Pull Request if docs are difference
         if: failure()
