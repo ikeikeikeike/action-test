@@ -38,7 +38,7 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           base: master
-          branch: "built-documentation-${{ github.event.repository.name }}"
+          branch: build-documentation
           delete-branch: true
           assignees: "${{ github.actor }}"
           reviewers: "${{ github.actor }}"

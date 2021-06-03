@@ -5,7 +5,7 @@ name: "upload wiki when built doc is merged"
 on:
   pull_request:
     branches:
-      - "built-documentation-${{ github.event.repository.name }}"
+      - build-documentation
     types: [closed]
 
 jobs:
