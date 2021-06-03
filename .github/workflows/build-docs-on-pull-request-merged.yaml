@@ -25,7 +25,7 @@ jobs:
 
       - name: Generate Documentation
         run: |
-          pip install -y pdoc3
+          pip install pdoc3
           pdoc3 myaction --html -o _docs
 
           diff -r _docs docs
@@ -40,8 +40,8 @@ jobs:
           delete-branch: true
           assignees: "${{ github.actor }}"
           reviewers: "${{ github.actor }}"
-          author: "${{ github.actor }} <${{ github.event.pusher.email }}>"
-          committer: "${{ github.actor }} <${{ github.event.pusher.email }}>"
+          # author: "${{ github.actor }} <${{ github.event.pusher.email }}>"
+          # committer: "${{ github.actor }} <${{ github.event.pusher.email }}>"
           commit-message: "Built documentation ${{ github.event.repository.name }} ${{ github.event.ref }}"
           title: "Built documentation ${{ github.event.repository.name }} ${{ github.event.ref }}"
           body: |
