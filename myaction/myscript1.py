@@ -12,6 +12,7 @@ def none():
     f = None
     g = None
     h = None
+    i = None
     ```
     """
 
