@@ -45,9 +45,7 @@ jobs:
           commit-message: "Built documentation ${{ github.event.repository.name }} ${{ github.event.ref }}"
           title: "Built documentation ${{ github.event.repository.name }} ${{ github.event.ref }}"
           body: |
-            Built documentation ref ${{ github.event.ref }}
-
-            - Compare: ${{ github.event.compare }}
+            Built new documentation ${{ github.event.repository.name }} ${{ github.event.ref }} which is triggered by difference py-docstring.
 
       - name: Check outputs
         run: |
