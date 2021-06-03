@@ -43,7 +43,7 @@ jobs:
           # author: "${{ github.actor }} <${{ github.event.pusher.email }}>"
           # committer: "${{ github.actor }} <${{ github.event.pusher.email }}>"
           commit-message: "Built documentation ${{ github.event.repository.name }} ${{ github.event.ref }}"
-          title: "Built documentation ${{ github.event.repository.name }} ${{ github.event.ref }}"
+          title: "Built new documentation ${{ github.event.repository.name }} ${{ github.event.ref }}"
           body: |
             Built new documentation ${{ github.event.repository.name }} ${{ github.event.ref }} which is triggered by difference py-docstring.
 
