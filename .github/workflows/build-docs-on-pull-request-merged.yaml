@@ -40,8 +40,6 @@ jobs:
           delete-branch: true
           assignees: "${{ github.actor }}"
           reviewers: "${{ github.actor }}"
-          # author: "${{ github.actor }} <${{ github.event.pusher.email }}>"
-          # committer: "${{ github.actor }} <${{ github.event.pusher.email }}>"
           commit-message: "Built documentation ${{ github.event.repository.name }} ${{ github.event.ref }}"
           title: "Built new documentation ${{ github.event.repository.name }} ${{ github.event.ref }}"
           body: |
@@ -51,4 +49,3 @@ jobs:
         run: |
           echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
           echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
-
