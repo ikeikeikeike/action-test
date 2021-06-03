@@ -1,6 +1,6 @@
 ---
 
-rame: "Build docs on pull request merged"
+name: "Build docs on pull request merged"
 
 on:
   pull_request:
