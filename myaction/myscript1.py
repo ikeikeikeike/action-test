@@ -6,6 +6,7 @@ def none():
     ```python
     a = None
     b = None
+    c = None
     ```
     """
 
