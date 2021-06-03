@@ -11,7 +11,7 @@ on:
 jobs:
   docs:
     name: Build Documentation
-    if: github.event.pull_request.merged == true && github.head_ref == "build-documentation"
+    if: github.event.pull_request.merged == true && github.head_ref == 'build-documentation'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
