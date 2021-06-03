@@ -46,16 +46,3 @@ jobs:
           title: "Built new documentation ${{ github.event.repository.name }} ${{ github.event.ref }}"
           body: |
             Built new documentation ${{ github.event.repository.name }} ${{ github.event.ref }} which is triggered by difference py-docstring.
-
-      - name: Generate Documentation as Markdown
-        if: steps.cpr.outputs.pull-request-number
-        run: |
-          pdoc3 myaction -f -o wiki
-
-      - name: Upload Documentation to Wiki
-        if: steps.cpr.outputs.pull-request-number
-        uses: SwiftDocOrg/github-wiki-publish-action@v1
-        with:
-          path: "wiki"
-        env:
-          GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}

@@ -1,0 +1,38 @@
+---
+
+name: "upload wiki when built doc is merged"
+
+on:
+  pull_request:
+    branches:
+      - "built-documentation-${{ github.event.repository.name }}"
+    types: [closed]
+
+jobs:
+  docs:
+    name: Build Documentation
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+          architecture: x64
+
+      - run: python -V
+
+      - name: Generate Documentation as Markdown
+        if: steps.cpr.outputs.pull-request-number
+        run: |
+          pip install pdoc3
+          pdoc3 myaction -f -o wiki
+
+      - name: Upload Documentation to Wiki
+        if: steps.cpr.outputs.pull-request-number
+        uses: SwiftDocOrg/github-wiki-publish-action@v1
+        with:
+          path: "wiki"
+        env:
+          GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
