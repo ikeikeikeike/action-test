@@ -46,3 +46,8 @@ jobs:
           title: "Built new documentation ${{ github.event.repository.name }} ${{ github.event.ref }}"
           body: |
             Built new documentation ${{ github.event.repository.name }} ${{ github.event.ref }} which is triggered by difference py-docstring.
+
+      - name: Check outputs
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
