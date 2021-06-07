@@ -26,11 +26,11 @@ jobs:
       - name: Generate Documentation as Markdown
         run: |
           pip install pdoc3
-          pdoc3 myaction -f -o documentation
+          pdoc3 myaction -f -o wiki
 
       - name: Upload Documentation to Wiki
-        uses: peaceiris/actions-gh-pages@v3
+        uses: SwiftDocOrg/github-wiki-publish-action@v1
         with:
-          # personal_token: ${{ secrets.ACCESS_TOKEN }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          destination_dir: "documentation"
+          path: "wiki/myaction"   # TODO: cannot find subfilder: this behavior like maxdepth=1
+        env:
+          GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
