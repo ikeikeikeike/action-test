@@ -51,9 +51,6 @@ jobs:
 
             Tips, you can preview html without git-clone, here are example URL
 
-            - `https://htmlpreview.github.io/?`
-            - https://htmlpreview.github.io/?https://raw.githubusercontent.com/Nikkei/nikkei-python-utils/ba347ed0e3b3c423f3cd94f079213760522cbfa8/docs/nikkei_utils/baitai.html?token=AABVDDD4XV3RBDNB2QREJRTAZCVBO
-
       - name: Check outputs
         run: |
           echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
