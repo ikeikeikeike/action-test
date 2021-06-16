@@ -24,6 +24,8 @@ jobs:
       - run: python -V
 
       - name: Generate Documentation
+        continue-on-error: true
+        id: gen_doc
         run: |
           pip install pdoc3
 
@@ -33,7 +35,7 @@ jobs:
           diff -r prev_docs docs
 
       - name: Create Pull Request if docs are difference
-        if: failure()
+        if: steps.gen_doc.outcome == 'failure'
         id: cpr
         uses: peter-evans/create-pull-request@v3
         with:
@@ -46,6 +48,11 @@ jobs:
           title: "Built new documentation ${{ github.event.repository.name }} ${{ github.event.ref }}"
           body: |
             Built new documentation ${{ github.event.repository.name }} ${{ github.event.ref }} which is triggered by difference py-docstring.
+
+            Tips, you can preview html without git-clone, here are example URL
+
+            - `https://htmlpreview.github.io/?`
+            - https://htmlpreview.github.io/?https://raw.githubusercontent.com/Nikkei/nikkei-python-utils/ba347ed0e3b3c423f3cd94f079213760522cbfa8/docs/nikkei_utils/baitai.html?token=AABVDDD4XV3RBDNB2QREJRTAZCVBO
 
       - name: Check outputs
         run: |
