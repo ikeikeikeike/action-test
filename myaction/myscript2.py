@@ -12,6 +12,7 @@ def some():
     i = None
     j = None
     k = None
+    l = None
     ```
 
     ## some
